@@ -6,7 +6,7 @@
   "type":"module",
   "scripts": {
     "dev": "nodemon",
-    "seeding": "node init-db.js"
+    "seeding": "node database/init-db.js"
   },
   "author": "",
   "license": "ISC",

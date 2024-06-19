@@ -28,3 +28,6 @@ Le but est de mettre en relation des associations de protection des animaux avec
 ###  Déploiement
 - Docker
 - Docker Compose
+
+## Images
+Toutes les images utilisées sont libres de droits et/ou générées avec une IA.

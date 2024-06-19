@@ -1,5 +1,4 @@
 import sequelize from '../../database.js';
-// on importe la classe mère et la liste des types fournis par sequelize
 import { Model, DataTypes } from 'sequelize';
 
 export class Pet extends Model { }
@@ -8,7 +7,7 @@ Pet.init({
     name: {
         type: DataTypes.TEXT,
         allowNull: false,
-        validate: { // validateurs qui agiront au niveau des setter
+        validate: { 
             notEmpty: true,
         },
     },

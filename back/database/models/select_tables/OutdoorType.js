@@ -7,7 +7,7 @@ OutdoorType.init({
     label: {
         type: DataTypes.TEXT,
         allowNull: false,
-        validate: { // validateurs qui agiront au niveau des setter
+        validate: {
             notEmpty: true,
         },
     },

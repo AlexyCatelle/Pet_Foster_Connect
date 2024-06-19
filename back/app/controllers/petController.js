@@ -6,24 +6,24 @@ const petController = {
     // READ
     async getAll(req, res) {
         try {
-            // Recuperer la liste de tous les pets
+            // Recuperer la liste de tous les profils d'animaux
             const pets = await models.Pet.findAll({ include: [models.Race, models.Species, models.OkDog, models.OkCat, models.OkChild, models.Association, models.PetStatus, models.Department, models.PetPicture] });
             res.send(pets);
         } catch (error) {
             console.log(error.message);
-            res.send('error');
+            res.status(500).json({ error: "erreur de récupération des profils animaux." });
         }
     },
 
     // CREATE
-    // ajout d'un profil animal
     async addNewProfil(req, res) {
         try {
             // récupération du token
             const token = req.body.token
             // vérification qu'il y a un token d'authentification reçu
             if (!token) {
-                console.log("aucun token récupéré");
+                console.log("aucun token récupéré.");
+                res.json({ error: "aucun token récupéré." });
             }
             else {
                 try {
@@ -33,8 +33,8 @@ const petController = {
                     // vérification qu'un compte user existe
                     let association = await models.Association.findAll({ where: { UserId: decodedToken.id }, include: [models.User] });
                     if (!association) {
-                        console.log("pet non trouvé");
-                        res.json({ error: "pet non trouvé" });
+                        console.log("profil animal non trouvé.");
+                        res.json({ error: "profil animal non trouvé." });
                     } // si utilisateur trouvé
                     else {
                         // Création d'un profil pet lié à l'utilisateur trouvé
@@ -64,18 +64,19 @@ const petController = {
                         catch (error) {
                             console.log(error)
                             res.json({ isCreated: false })
-                        }
-                    }
+                        };
+                    };
                 }
-                catch (err) {
+                catch (error) {
                     // Gestion des erreurs lors du décodage du token
-                    console.error(err);
-                    res.json({ error: "probleme de décodage du token" });
-                }
-            }
+                    console.error(error);
+                    res.status(500).json({ error: "probleme de décodage du token." });
+                };
+            };
         } catch (error) {
-            console.log("erreur")
-        }
+            console.error(error);
+            res.status(500).json({ error: "création de profil impossible." });
+        };
     },
 
     // GET DATA
@@ -83,6 +84,7 @@ const petController = {
         const token = req.body.token;
         if (!token) {
             console.log("pas de token");
+            res.json({ error: "aucun token récupéré." });
         }
         else {
             try {
@@ -103,9 +105,9 @@ const petController = {
                         res.json(pet);
                     }
                 }
-            } catch (err) {
+            } catch (error) {
                 // Gestion des erreurs lors du décodage du token
-                console.error(err);
+                console.error(error);
                 res.json({ error: "probleme de décodage du token" });
             }
         }
@@ -118,6 +120,7 @@ const petController = {
             // vérification qu'il y a un token d'authentification reçu
             if (!token) {
                 console.log("pas de token");
+                res.json({ error: "aucun token récupéré" });
             }
             else {
                 try {
@@ -169,20 +172,21 @@ const petController = {
                             catch (error) {
                                 console.log(error)
                                 res.json({ isUpdated: false })
-                            }
-                        }
-                    }
-                } catch (err) {
+                            };
+                        };
+                    };
+                } catch (error) {
                     // Gestion des erreurs lors du décodage du token
-                    console.error(err);
+                    console.error(error);
                     res.json({ error: "probleme de décodage du token" });
-                }
-            }
+                };
+            };
         }
         catch (error) {
-            console.log("erreur")
-        }
-    }
+            console.log("erreur");
+            res.json({ error: "erreur lors de la modification du profil." });
+        };
+    },
 }
 
 export default petController;

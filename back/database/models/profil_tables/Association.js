@@ -8,7 +8,7 @@ Association.init({
         type: DataTypes.TEXT,
         allowNull: false,
         unique: true,
-        validate: { // validateurs qui agiront au niveau des setter
+        validate: {
             notEmpty: true,
         },
     },

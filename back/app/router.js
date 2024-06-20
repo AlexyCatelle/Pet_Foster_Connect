@@ -4,6 +4,7 @@ import mainController from "./controllers/mainController.js";
 import userController from "./controllers/userController.js";
 import petController from "./controllers/petController.js";
 import associationController from "./controllers/associationController.js";
+import familyController from "./controllers/familyController.js";
 import requestController from "./controllers/requestController.js";
 // END IMPORT CONTROLLER
 
@@ -17,7 +18,7 @@ router.get("/", mainController.home)
 
 // Récupération de toutes les fiches profils
 router.get("/users", userController.getAll);
-router.get("families",)
+router.get("families", familyController.getAll)
 router.get("/associations", associationController.getAll)
 router.get("/pets", petController.getAll);
 
@@ -29,7 +30,7 @@ router.get("/requests", requestController.getAll);
 // END ROUTES EN GET
 // START ROUTES EN POST
 //Vérification des données de connexion et création/récupération du token JWT
-router.post("signin",)
+router.post("signin", mainController.signIn)
 
 // END ROUTES EN POST
 // END ROUTES

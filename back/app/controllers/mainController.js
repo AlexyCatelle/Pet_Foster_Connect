@@ -50,7 +50,7 @@ const mainController = {
                 }
                 // si le mot de passe est un inccorect renvoie une erreur
                 else {
-                    res.json({ error: "le couple identifiant/mot de passe est incorrect." })
+                    res.status(500).json({ error: "le couple identifiant/mot de passe est incorrect." })
                 };
             };
         } catch (error) {

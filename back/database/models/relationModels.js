@@ -78,4 +78,29 @@ AssociationPicture.belongsTo(Association);
 // FamilyPicture
 FamilyPicture.belongsTo(Family);
 
-export { User, Association, Family, Pet, Housing, LivingEnvironment, OutdoorType, ChildrenUnder15, CatSelect, DogSelect, Race, Species, OkDog, OkCat, OkChild, PetStatus, Department, Request, RequestStatus, Role, PetPicture, UserPicture, AssociationPicture, FamilyPicture }
+export {
+    User,
+    Association,
+    Family,
+    Pet,
+    Housing,
+    LivingEnvironment,
+    OutdoorType,
+    ChildrenUnder15,
+    CatSelect,
+    DogSelect,
+    Race,
+    Species,
+    OkDog,
+    OkCat,
+    OkChild,
+    PetStatus,
+    Department,
+    Request,
+    RequestStatus,
+    Role,
+    PetPicture,
+    UserPicture,
+    AssociationPicture,
+    FamilyPicture
+}

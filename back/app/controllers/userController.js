@@ -13,7 +13,7 @@ const userController = {
             const users = await models.User.findAll({ include: [models.Role, models.UserPicture] });
             res.send(users);
         } catch (error) {
-            console.log(error.message);
+            console.error(error);
             res.send('error');
         }
     },
@@ -52,16 +52,14 @@ const userController = {
                     }, { include: [models.Role] });
                     // Renvoie une réponse au format json
                     res.json({ isCreate: true });
-                    console.log(newUser);
                 } catch (error) {
-                    console.log("error Utilisateur");
                     console.error(error)
-                    res.json({ isCreate: false });
+                    res.status(500).json({ isCreate: false, error: "erreur lors de la création du compte." });
                 };
             }
             );
         } catch (error) {
-            console.log("Problème d'ajout d'user");
+            console.log("Problème d'ajout d'user.");
             res.status(500).json({ isCreated: false, error: "erreur lors de la création du compte." });
         };
     },
@@ -89,7 +87,7 @@ const userController = {
             } catch (error) {
                 // Gestion des erreurs lors du décodage du token
                 console.error(error);
-                res.json({ error: "probleme de décodage du token" });
+                res.status(500).json({ error: "probleme de décodage du token" });
             };
         };
     },
@@ -108,7 +106,7 @@ const userController = {
                 let user = await models.User.findByPk(decodedToken.id);
                 if (!user) {
                     console.log("Utilisateur non trouvé");
-                    res.json({ error: "Utilisateur non trouvé" });
+                    res.status(500).json({ error: "Utilisateur non trouvé" });
                 }
                 else {
                     //Suppression des données de l'user dans la table User.
@@ -133,7 +131,7 @@ const userController = {
             } catch (error) {
                 // Gestion des erreurs lors du décodage du token
                 console.error(error);
-                res.status(500).json({ error: "probleme de décodage du token" });
+                res.status(500).json({ error: "probleme de décodage du token", isDeleted: "false" });
             }
         }
     },
@@ -153,7 +151,7 @@ const userController = {
                     let user = await models.User.findByPk(decodedToken.id);
                     if (!user) {
                         console.log("Utilisateur non trouvé");
-                        res.json({ error: "Utilisateur non trouvé" });
+                        res.status(500).json({ error: "Utilisateur non trouvé" });
                     }
                     // si utilisateur trouvé
                     else {
@@ -178,12 +176,16 @@ const userController = {
                                         id: user.id,
                                     }
                                 },
-                                { include: [models.Role, models.UserPicture, models.Request] });
+                                {
+                                    include: [models.Role,
+                                    models.UserPicture,
+                                    models.Request]
+                                });
                             res.json({ isUpdated: true });
                         }
                         catch (error) {
                             console.log(error)
-                            res.json({ isUpdated: false })
+                            res.status(500).json({ isUpdated: false, error: "erreur lors de la modificatication des données du profil utilisateur." })
                         }
                     }
                 } catch (error) {
@@ -199,7 +201,6 @@ const userController = {
         };
     },
 
-}
-
+};
 
 export default userController;

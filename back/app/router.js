@@ -28,6 +28,8 @@ router.get("/selects",)
 router.get("/requests", requestController.getAll);
 // END ROUTES EN GET
 // START ROUTES EN POST
+//Vérification des données de connexion et création/récupération du token JWT
+router.post("signin",)
 
 // END ROUTES EN POST
 // END ROUTES

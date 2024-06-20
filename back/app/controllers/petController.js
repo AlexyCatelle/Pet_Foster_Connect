@@ -1,13 +1,24 @@
-import * as models from "../../database/models/relationModels.js";
+// Importation des modules
 import jwt from "jsonwebtoken";
 
-// READ
+// Importation des models avec leurs relations
+import * as models from "../../database/models/relationModels.js";
+
 const petController = {
-    // READ
+    // READ : Recuperer la liste de tous les profils d'animaux avec les tables associées.
     async getAll(req, res) {
         try {
-            // Recuperer la liste de tous les profils d'animaux
-            const pets = await models.Pet.findAll({ include: [models.Race, models.Species, models.OkDog, models.OkCat, models.OkChild, models.Association, models.PetStatus, models.Department, models.PetPicture] });
+            const pets = await models.Pet.findAll({
+                include: [models.Race,
+                models.Species,
+                models.OkDog,
+                models.OkCat,
+                models.OkChild,
+                models.Association,
+                models.PetStatus,
+                models.Department,
+                models.PetPicture]
+            });
             res.send(pets);
         } catch (error) {
             console.log(error.message);
@@ -23,7 +34,7 @@ const petController = {
             // vérification qu'il y a un token d'authentification reçu
             if (!token) {
                 console.log("aucun token récupéré.");
-                res.json({ error: "aucun token récupéré." });
+                res.status(500).json({ error: "aucun token récupéré." });
             }
             else {
                 try {
@@ -34,7 +45,7 @@ const petController = {
                     let association = await models.Association.findAll({ where: { UserId: decodedToken.id }, include: [models.User] });
                     if (!association) {
                         console.log("profil animal non trouvé.");
-                        res.json({ error: "profil animal non trouvé." });
+                        res.status(500).json({ error: "profil animal non trouvé." });
                     } // si utilisateur trouvé
                     else {
                         // Création d'un profil pet lié à l'utilisateur trouvé
@@ -63,7 +74,7 @@ const petController = {
                         }
                         catch (error) {
                             console.log(error)
-                            res.json({ isCreated: false })
+                            res.satus(500).json({ isCreated: false, error: "Erreur lors de la création du profil." })
                         };
                     };
                 }
@@ -84,7 +95,7 @@ const petController = {
         const token = req.body.token;
         if (!token) {
             console.log("pas de token");
-            res.json({ error: "aucun token récupéré." });
+            res.status(500).json({ error: "aucun token récupéré." });
         }
         else {
             try {
@@ -94,12 +105,12 @@ const petController = {
                 let association = await models.Association.findAll({ where: { UserId: decodedToken.id }, include: [models.User] });
                 if (!association) {
                     console.log("pet non trouvé");
-                    res.json({ error: "pet non trouvé" });
+                    res.status(500).json({ error: "pet non trouvé" });
                 } else {
                     let pet = await models.Pet.findAll({ include: [models.Race, models.Species, models.OkDog, models.OkCat, models.OkChild, models.Association, models.PetStatus, models.Department, models.PetPicture] });
                     if (!pet) {
                         console.log("profil pet non trouvé");
-                        res.json({ error: "profil pet non trouvé" });
+                        res.status(500).json({ error: "profil pet non trouvé" });
                     }
                     else {
                         res.json(pet);
@@ -108,7 +119,7 @@ const petController = {
             } catch (error) {
                 // Gestion des erreurs lors du décodage du token
                 console.error(error);
-                res.json({ error: "probleme de décodage du token" });
+                res.status(500).json({ error: "probleme de décodage du token" });
             }
         }
     },
@@ -120,7 +131,7 @@ const petController = {
             // vérification qu'il y a un token d'authentification reçu
             if (!token) {
                 console.log("pas de token");
-                res.json({ error: "aucun token récupéré" });
+                res.status(500).json({ error: "aucun token récupéré" });
             }
             else {
                 try {
@@ -130,7 +141,7 @@ const petController = {
                     let association = await models.Association.findAll({ where: { UserId: decodedToken.id }, include: [models.User] });
                     if (!association) {
                         console.log("Utilisateur non trouvé");
-                        res.json({ error: "Utilisateur non trouvé" });
+                        res.status(500).json({ error: "Utilisateur non trouvé" });
                     }
                     else {
                         // récupération de l'id du pet
@@ -138,7 +149,7 @@ const petController = {
                         // vérification que l'id du pet est bien passé dans la requête
                         if (!petId) {
                             console.log("ID de l'animal manquant");
-                            res.json({ error: "ID de l'animal manquant" });
+                            res.status(500).json({ error: "Animal non trouvé." });
                         } else {
                             // si utilisateur trouvé ET pet id trouvé
                             // modification d'un profil pet
@@ -171,20 +182,20 @@ const petController = {
                             }
                             catch (error) {
                                 console.log(error)
-                                res.json({ isUpdated: false })
+                                res.status(304).json({ isUpdated: false, error: "Erreur lors de la modification du profil." })
                             };
                         };
                     };
                 } catch (error) {
                     // Gestion des erreurs lors du décodage du token
                     console.error(error);
-                    res.json({ error: "probleme de décodage du token" });
+                    res.status(500).json({ error: "probleme de décodage du token" });
                 };
             };
         }
         catch (error) {
             console.log("erreur");
-            res.json({ error: "erreur lors de la modification du profil." });
+            res.status(500).json({ error: "erreur lors de la modification du profil." });
         };
     },
 }

@@ -1,6 +1,7 @@
 import express from "express";
 // START IMPORT CONTROLLER
 import mainController from "./controllers/mainController.js";
+import userController from "./controllers/userController.js";
 import petController from "./controllers/petController.js";
 // END IMPORT CONTROLLER
 
@@ -10,6 +11,7 @@ const router = express.Router();
 // START ROUTES
 // START ROUTES EN GET
 router.get("/", mainController.home)
+router.get("/users", userController.getAll);
 router.get("/pets", petController.getAll);
 // END ROUTES EN GET
 // START ROUTES EN POST

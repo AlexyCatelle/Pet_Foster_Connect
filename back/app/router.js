@@ -3,6 +3,7 @@ import express from "express";
 import mainController from "./controllers/mainController.js";
 import userController from "./controllers/userController.js";
 import petController from "./controllers/petController.js";
+import associationController from "./controllers/associationController.js";
 import requestController from "./controllers/requestController.js";
 // END IMPORT CONTROLLER
 
@@ -17,14 +18,14 @@ router.get("/", mainController.home)
 // Récupération de toutes les fiches profils
 router.get("/users", userController.getAll);
 router.get("families",)
-router.get("/associations",)
+router.get("/associations", associationController.getAll)
 router.get("/pets", petController.getAll);
 
 // Récupération des données pour les selects
 router.get("/selects",)
 
 // Récupération des données des demandes d'acceuil
-router.get("/requests",requestController.getAll);
+router.get("/requests", requestController.getAll);
 // END ROUTES EN GET
 // START ROUTES EN POST
 

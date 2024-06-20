@@ -126,12 +126,12 @@ const userController = {
                             await profilAssociation.destroy();
                         };
                     };
-                    res.json({ isDeleted: "true" });
+                    res.json({ isDeleted: true });
                 }
             } catch (error) {
                 // Gestion des erreurs lors du décodage du token
                 console.error(error);
-                res.status(500).json({ error: "probleme de décodage du token", isDeleted: "false" });
+                res.status(500).json({ error: "probleme de décodage du token", isDeleted: false });
             }
         }
     },

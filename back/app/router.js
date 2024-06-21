@@ -29,6 +29,7 @@ router.get("/selects", selectsController.getAll)
 // Récupération des données des demandes d'acceuil
 router.get("/requests", requestController.getAll);
 // END ROUTES EN GET
+
 // START ROUTES EN POST
 //Vérification des données de connexion et création/récupération du token JWT
 router.post("signin", mainController.signIn)

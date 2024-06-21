@@ -35,11 +35,11 @@ const selectsController = {
                 petStatus: petStatus,
                 department: department,
                 requestStatus: requestStatus,
-            })
+            });
         }
         catch (error) {
             console.error(error);
-            res.status(500).json("erreur lors de la récupération des données des selecteurs.")
+            res.status(500).json({error: "erreur lors de la récupération des données des selecteurs."});
         };
     },
 };

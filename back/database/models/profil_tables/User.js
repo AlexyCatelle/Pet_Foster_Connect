@@ -79,9 +79,6 @@ User.init({
     UserPictureId: {
         type: DataTypes.INTEGER,
     },
-    FamilyId: {
-        type: DataTypes.INTEGER,
-    },
     RequestId: {
         type: DataTypes.INTEGER,
     },

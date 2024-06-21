@@ -37,7 +37,6 @@ import { FamilyPicture } from "./picture_tables/FamilyPicture.js";
 // User
 User.belongsTo(Role);
 User.belongsTo(UserPicture);
-User.hasOne(Family, { foreignKey: 'UserId' });
 User.hasMany(Request);
 
 // Association
@@ -45,7 +44,7 @@ Association.hasMany(Pet);
 Association.belongsTo(User);
 
 // Family
-Family.belongsTo(User, { foreignKey: 'UserId' });
+Family.belongsTo(User);
 Family.belongsTo(Housing);
 Family.belongsTo(LivingEnvironment);
 Family.belongsTo(OutdoorType);
@@ -74,9 +73,11 @@ Pet.hasMany(PetPicture);
 
 // AssociationPicture
 AssociationPicture.belongsTo(Association);
+Association.hasMany(AssociationPicture);
 
 // FamilyPicture
 FamilyPicture.belongsTo(Family);
+Family.hasMany(FamilyPicture);
 
 export {
     User,

@@ -6,6 +6,7 @@ import petController from "./controllers/petController.js";
 import associationController from "./controllers/associationController.js";
 import familyController from "./controllers/familyController.js";
 import requestController from "./controllers/requestController.js";
+import selectsController from "./controllers/selectController.js";
 // END IMPORT CONTROLLER
 
 // création d'un objet router à l'aide de la méthode adaptée fournie par express
@@ -23,7 +24,7 @@ router.get("/associations", associationController.getAll)
 router.get("/pets", petController.getAll);
 
 // Récupération des données pour les selects
-router.get("/selects",)
+router.get("/selects", selectsController.getAll)
 
 // Récupération des données des demandes d'acceuil
 router.get("/requests", requestController.getAll);

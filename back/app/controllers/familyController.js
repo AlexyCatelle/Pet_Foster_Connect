@@ -74,7 +74,7 @@ const familyController = {
                                     CatSelectId: req.body.CatSelectId,
                                     DogSelectId: req.body.DogSelectId,
                                     UserId: decodedToken.id
-                                },{
+                                }, {
                                 include: [
                                     models.Housing,
                                     models.LivingEnvironment,
@@ -95,29 +95,31 @@ const familyController = {
                             // renvoie l'erreur en console (back)
                             console.error(error)
                             //renvoie une réponse en JSON vers le front pour indiquer que la création du profil à échoué.
-                            res.status(500).json({ isCreated: false, error:"Erreur lors de la création du profil famille." })
-                        }
+                            res.status(500).json({ isCreated: false, error: "Erreur lors de la création du profil famille." });
+                        };
                     };
                     // si pas d'utilisateur trouvé ou probleme sur le décodage du token
                 } catch (error) {
                     // envoie l'erreur en console (back)
                     console.error(error);
                     // envoie un message d'erreur vers le front en JSON
-                    res.json({ error: "probleme de décodage du token" });
-                }
-            }
+                    res.status(500).json({ error: "erreur lors de récupération de l'identifiant." });
+                };
+            };
         }
         // gestion erreur global sur la création d'un nouveau profil
         catch (error) {
-            console.log("erreur")
-        }
+            console.error(error);
+            res.status(500).json({ error: "erreur lors de la création du profil." })
+        };
     },
 
-    // GET DATA
-    async getDataFamily(req, res) {
+    // READ : Récupération des données d'un profil famille par l'id User.
+    async getDataFamilyById(req, res) {
         const token = req.body.token;
         if (!token) {
             console.log("pas de token");
+            res.status(500).json({ error: "Aucun token récupéré." });
         }
         else {
             try {
@@ -127,16 +129,16 @@ const familyController = {
                 let family = await models.Family.findAll({ where: { UserId: decodedToken.id } });
 
                 if (!family) {
-                    console.log("profil famille non trouvé");
-                    res.json({ error: "profil famille non trouvé" });
+                    console.log("profil famille non trouvé.");
+                    res.status(500).json({ error: "profil famille non trouvé." });
                 }
                 else {
                     res.json(family);
                 }
-            } catch (err) {
+            } catch (error) {
                 // Gestion des erreurs lors du décodage du token
-                console.error(err);
-                res.json({ error: "probleme de décodage du token" });
+                console.error(error);
+                res.status(500).json({ error: "probleme lors de récupération de l'identifiant." });
             }
         }
     },
@@ -148,6 +150,7 @@ const familyController = {
             // vérification qu'il y a un token d'authentification reçu
             if (!token) {
                 console.log("pas de token");
+                res.status(500).json({ error: "Aucun token récupéré." });
             }
             else {
                 try {
@@ -156,8 +159,8 @@ const familyController = {
                     // vérification qu'un compte user existe
                     let user = await models.User.findByPk(decodedToken.id);
                     if (!user) {
-                        console.log("Utilisateur non trouvé");
-                        res.json({ error: "Utilisateur non trouvé" });
+                        console.log("Utilisateur non trouvé.");
+                        res.status(500).json({ error: "Utilisateur non trouvé." });
                     }
                     // si utilisateur trouvé
                     else {
@@ -205,7 +208,7 @@ const familyController = {
                         }
                         catch (error) {
                             console.log(error)
-                            res.json({ isUpdated: false })
+                            res.status(500).json({ isUpdated: false, error: "erreur lors de la modification du profil." })
                         }
                     }
                 } catch (err) {
